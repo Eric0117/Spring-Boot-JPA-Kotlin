@@ -1,6 +1,5 @@
 package com.eric.jpa.domain.base
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.uuid.Generators
 import jakarta.persistence.*
 import org.hibernate.proxy.HibernateProxy
