@@ -1,5 +1,6 @@
 package com.eric.jpa.domain
 
+import com.eric.jpa.domain.base.BaseEntity
 import com.fasterxml.uuid.Generators
 import jakarta.persistence.*
 import java.util.*
@@ -7,10 +8,9 @@ import java.util.*
 @Entity
 @Table(name = "member")
 class Member(
+    username: String
+): BaseEntity() {
 
-    @Id
-    val uid: UUID = Generators.timeBasedGenerator().generate(),
-
-
-    val username: String,
-)
+    var username: String = username
+        protected set
+}

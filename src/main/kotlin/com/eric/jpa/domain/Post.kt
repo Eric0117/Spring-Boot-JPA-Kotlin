@@ -1,5 +1,6 @@
 package com.eric.jpa.domain
 
+import com.eric.jpa.domain.base.BaseEntity
 import com.fasterxml.uuid.Generators
 import jakarta.persistence.*
 import java.util.*
@@ -10,10 +11,7 @@ class Post (
     title: String,
     content: String,
     writer: Member,
-) {
-    @Id
-    val pid: UUID = Generators.timeBasedGenerator().generate()
-
+): BaseEntity() {
     @Column(nullable = false)
     var title: String = title
         protected set
