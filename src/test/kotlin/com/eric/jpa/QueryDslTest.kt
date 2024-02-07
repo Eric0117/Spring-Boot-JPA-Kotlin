@@ -1,8 +1,8 @@
 package com.eric.jpa
 
-import com.eric.jpa.domain.Member
-import com.eric.jpa.domain.QMember
-import com.eric.jpa.repository.MemberRepository
+import com.eric.jpa.domain.Person
+import com.eric.jpa.domain.QPerson
+import com.eric.jpa.repository.PersonRepository
 import com.querydsl.jpa.impl.JPAQuery
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 class QueryDslTest {
 
     @Autowired
-    private lateinit var memberRepository: MemberRepository
+    private lateinit var personRepository: PersonRepository
 
     @PersistenceContext
     private lateinit var entityManager: EntityManager
@@ -30,24 +30,24 @@ class QueryDslTest {
 
     @BeforeEach
     fun beforeEach() {
-        val members = listOf(
-            Member(username = "Bennie Evans"),
-            Member(username = "Edwardo Goff"),
-            Member(username = "Lynn Evans")
+        val people = listOf(
+            Person(name = "Bennie Evans", gender = Gender.MALE, company = null),
+            Person(name = "Edwardo Goff", gender = Gender.MALE, company = null),
+            Person(name = "Lynn Evans", gender = Gender.MALE, company = null)
         )
 
-        memberRepository.saveAll(members)
+        personRepository.saveAll(people)
     }
 
     @Test
     fun find_test() {
-        val query: JPAQuery<Member> = JPAQuery<Member>(entityManager)
-        val qMember = QMember("m")
+        val query: JPAQuery<Person> = JPAQuery<Person>(entityManager)
+        val qPerson = QPerson("m")
 
-        val memberList: List<Member> = query.from(qMember)
-            .where(qMember.username.like("%Evans%"))
+        val personList: List<Person> = query.from(qPerson)
+            .where(qPerson.name.like("%Evans%"))
             .fetch()
 
-        assertEquals(memberList.size, 2)
+        assertEquals(personList.size, 2)
     }
 }

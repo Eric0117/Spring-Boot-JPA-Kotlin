@@ -1,8 +1,7 @@
 package com.eric.jpa
 
-import com.eric.jpa.domain.Member
+import com.eric.jpa.domain.Person
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -18,18 +17,20 @@ class JpaApplicationTests(
     private val restTemplate: RestTemplate = RestTemplateBuilder().rootUri("http://localhost:$port").build()
 
     @Test
-    fun test_create_member() {
+    fun test_create_person() {
         // Given
-        val request = Member(
-            username = "Bennie Evans"
+        val request = Person(
+            name = "Bennie Evans",
+            gender = Gender.MALE,
+            company = null
         )
 
         // When
-        val actual = restTemplate.postForEntity("/member", request, Member::class.java)
+        val actual = restTemplate.postForEntity("/person", request, Person::class.java)
 
         // Then
         assertEquals(HttpStatus.OK, actual.statusCode)
-        assertEquals("Bennie Evans", actual.body?.username)
+        assertEquals("Bennie Evans", actual.body?.name)
     }
 
 }
