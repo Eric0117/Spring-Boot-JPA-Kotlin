@@ -15,6 +15,12 @@ plugins {
     kotlin("plugin.jpa") version "1.9.22"
 }
 
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
+}
+
 group = "com.eric"
 version = "0.0.1-SNAPSHOT"
 java {
