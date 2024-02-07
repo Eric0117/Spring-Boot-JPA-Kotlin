@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -25,17 +26,28 @@ class QueryDslTest {
     @PersistenceContext
     private lateinit var entityManager: EntityManager
 
+    //https://beaniejoy.tistory.com/84
+
+    @BeforeEach
+    fun beforeEach() {
+        val members = listOf(
+            Member(username = "Bennie Evans"),
+            Member(username = "Edwardo Goff"),
+            Member(username = "Lynn Evans")
+        )
+
+        memberRepository.saveAll(members)
+    }
+
     @Test
     fun find_test() {
-        memberRepository.save(Member(username = "Bennie Evans"))
-
         val query: JPAQuery<Member> = JPAQuery<Member>(entityManager)
         val qMember = QMember("m")
 
         val memberList: List<Member> = query.from(qMember)
-            .where(qMember.username.eq("Bennie Evans1"))
+            .where(qMember.username.like("%Evans%"))
             .fetch()
 
-        assertEquals(memberList.size, 1)
+        assertEquals(memberList.size, 2)
     }
 }
